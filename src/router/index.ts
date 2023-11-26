@@ -1,0 +1,37 @@
+/*
+ * @Author: zhubj | ''
+ * @Date: 2023-11-20 16:57:55
+ * @LastEditors: zhubj | ''
+ * @LastEditTime: 2023-11-26 14:18:08
+ * @FilePath: \echarts-vue-examples\src\router\index.ts
+ * @Description:
+ */
+import { createRouter, createWebHistory } from 'vue-router'
+import BarChart from '@/views/001单个柱状图/index.vue'
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      redirect: '/bar'
+    },
+    {
+      path: '/bar',
+      name: 'BarChart',
+      component: BarChart
+    },
+    {
+      path: '/line',
+      name: 'LineChart',
+      component: () => import('@/views/002单个折线图/index.vue')
+    },
+    {
+      path: '/mulBar',
+      name: 'MulBarChart',
+      component: () => import('@/views/003多个柱状图/index.vue')
+    }
+  ]
+})
+
+export default router
