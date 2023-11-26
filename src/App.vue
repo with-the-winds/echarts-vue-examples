@@ -2,7 +2,7 @@
  * @Author: zhubj | '' 
  * @Date: 2023-11-20 16:57:55
  * @LastEditors: zhubj | '' 
- * @LastEditTime: 2023-11-26 15:19:53
+ * @LastEditTime: 2023-11-26 17:15:14
  * @FilePath: \echarts-vue-examples\src\App.vue
  * @Description: 
 -->
@@ -24,7 +24,7 @@
       :class="['menu-item', currentPath == '/mulBar' && 'menu-item-active']"
       @click="routerPush('/mulBar')"
     >
-      003.多个柱状图
+      003.自定义多个柱状图
     </div>
   </div>
 
@@ -80,9 +80,9 @@ body {
   width: calc(100% - 300px);
   height: 100vh;
   position: relative;
-  background-image: url('@/assets/main-bg001.png');
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  color: #ffffff;
+  // background-image: url('@/assets/main-bg001.png');
+  // background-repeat: no-repeat;
+  // background-size: 100% 100%;
+  // color: #ffffff;
 }
 </style>

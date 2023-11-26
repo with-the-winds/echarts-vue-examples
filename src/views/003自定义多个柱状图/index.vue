@@ -52,7 +52,7 @@ const initChart = async () => {
       // icon: legendImg,
       itemWidth: 16,
       itemHeight: 18,
-      data: ['入库数量'],
+      data: ['入库数量', '销售数量', '库存数量'],
       top: 20
     },
     // 直角坐标系内绘图网格
@@ -73,7 +73,7 @@ const initChart = async () => {
       axisLine: {
         show: true,
         lineStyle: {
-          color: '#ffffff',
+          color: '#000',
           opacity: 0.4,
           width: 1,
           type: 'solid'
@@ -89,7 +89,7 @@ const initChart = async () => {
       axisLabel: {
         show: true,
         interval: 0, // 坐标轴刻度标签的显示间隔，在类目轴中有效, 设置成 0 强制显示所有标签
-        color: '#ffffff',
+        color: '#000',
         fontWeight: 400,
         fontSize: 12,
         margin: 12
@@ -124,7 +124,7 @@ const initChart = async () => {
       axisLine: {
         show: true,
         lineStyle: {
-          color: '#ffffff',
+          color: '#000',
           opacity: 0.4,
           width: 1
         }
@@ -137,7 +137,7 @@ const initChart = async () => {
       axisLabel: {
         show: true,
         interval: 0, // 强制显示全部文字
-        color: '#8F9297',
+        color: '#000',
         fontSize: 12,
         fontWeight: 400
       },
@@ -145,7 +145,7 @@ const initChart = async () => {
       splitLine: {
         show: true,
         lineStyle: {
-          color: '#ffffff',
+          color: '#000',
           width: 1,
           opacity: 0.15,
           type: 'dashed'
@@ -156,7 +156,7 @@ const initChart = async () => {
     dataZoom: [
       {
         type: 'inside',
-        maxValueSpan: 12,
+        maxValueSpan: 6,
         filterMode: 'filter',
         zoomOnMouseWheel: false, // 如何触发缩放
         moveOnMouseMove: true, // 如何触发数据窗口平移（鼠标移动）
@@ -206,9 +206,84 @@ const initChart = async () => {
               }
             ]
           },
+          borderColor: '#0078FF',
           // 纹理贴花
           decal: {
             color: 'rgba(0,252,255,0.3)',
+            dashArrayX: [1, 0],
+            dashArrayY: [1, 3],
+            symbolSize: 1,
+            rotation: -Math.PI / 4
+          }
+        }
+      },
+      {
+        type: 'custom',
+        name: '销售数量',
+        data: mulSeriesData[1].data,
+        // @ts-ignore
+        renderItem: (params, api) => {
+          return getRenderItem(params, api)
+        },
+        itemStyle: {
+          color: {
+            type: 'linear',
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [
+              {
+                offset: 0,
+                color: 'rgba(249,82,102,0.6) ' // 0% 处的颜色
+              },
+              {
+                offset: 1,
+                color: 'rgba(3,31,80,0.3)' // 100% 处的颜色
+              }
+            ]
+          },
+          borderColor: '#FC3951',
+          // 纹理贴花
+          decal: {
+            color: 'rgba(249,82,102,0.3)',
+            dashArrayX: [1, 0],
+            dashArrayY: [1, 3],
+            symbolSize: 1,
+            rotation: -Math.PI / 4
+          }
+        }
+      },
+      {
+        type: 'custom',
+        name: '库存数量',
+        data: mulSeriesData[2].data,
+        // @ts-ignore
+        renderItem: (params, api) => {
+          return getRenderItem(params, api)
+        },
+        itemStyle: {
+          color: {
+            type: 'linear',
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [
+              {
+                offset: 0,
+                color: 'rgba(255,252,0,0.6)' // 0% 处的颜色
+              },
+              {
+                offset: 1,
+                color: 'rgba(3,31,80,0.3)' // 100% 处的颜色
+              }
+            ]
+          },
+          borderColor: '#FFFC00',
+          // 纹理贴花
+          decal: {
+            color: 'rgba(255,252,0,0.3)',
             dashArrayX: [1, 0],
             dashArrayY: [1, 3],
             symbolSize: 1,
@@ -225,6 +300,7 @@ const initChart = async () => {
   function getRenderItem(params, api) {
     /**
      * 注意：坐标轴左上角是原点（0, 0）
+     * params 当前数据信息
      * api.value(0) 是index值（第一个维度的数值） 0 1 2 3 4 ...
      * api.value(1) 是value值（数据） 10 15 12 26 58 ...
      * api.coord 表示将 dataItem 中的数值转换成坐标系上的点
@@ -232,29 +308,50 @@ const initChart = async () => {
      *  */
     const point = api.coord([api.value(0), api.value(1)]) // 左上角是原点，根据原点往右往下变大，点位是顶部中点 [x横坐标值, y纵坐标值]
     const height = api.size([0, api.value(1)])[1] // 得到坐标系上一段数值范围对应的长度
+    const seriesIndex = params.seriesIndex // 系列index, series （从 0 开始）用于不同系列的间隔
+    const seriesLength = 3
 
     return {
-      type: 'rect',
-      // 形状
-      shape: {
-        x: point[0],
-        y: point[1],
-        width: 24,
-        height: height
-      },
-      // 样式
-      style: {
-        fill: api.visual('color'),
-        // 纹理贴花
-        decal: api.visual('decal')
-        // {
-        //   color: 'rgba(0,252,255,0.3)',
-        //   dashArrayX: [1, 0],
-        //   dashArrayY: [1, 3],
-        //   symbolSize: 1,
-        //   rotation: -Math.PI / 4
-        // }
-      }
+      type: 'group',
+      children: [
+        {
+          type: 'rect',
+          // 形状
+          shape: {
+            x: point[0] - 12 * seriesLength + seriesIndex * 24,
+            y: point[1],
+            width: 24,
+            height: height
+          },
+          // 样式
+          style: {
+            fill: api.visual('color'),
+            // 纹理贴花
+            decal: api.visual('decal')
+            // {
+            //   color: 'rgba(0,252,255,0.3)',
+            //   dashArrayX: [1, 0],
+            //   dashArrayY: [1, 3],
+            //   symbolSize: 1,
+            //   rotation: -Math.PI / 4
+            // }
+          }
+        },
+        {
+          type: 'rect',
+          // 形状
+          shape: {
+            x: point[0] - 12 * seriesLength + seriesIndex * 24,
+            y: point[1],
+            width: 24,
+            height: 2
+          },
+          // 样式
+          style: {
+            fill: api.visual('borderColor')
+          }
+        }
+      ]
     }
   }
 }

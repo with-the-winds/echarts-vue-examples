@@ -2,7 +2,7 @@
  * @Author: zhubj | ''
  * @Date: 2023-11-20 16:57:55
  * @LastEditors: zhubj | ''
- * @LastEditTime: 2023-11-26 14:18:08
+ * @LastEditTime: 2023-11-26 17:15:04
  * @FilePath: \echarts-vue-examples\src\router\index.ts
  * @Description:
  */
@@ -29,7 +29,7 @@ const router = createRouter({
     {
       path: '/mulBar',
       name: 'MulBarChart',
-      component: () => import('@/views/003多个柱状图/index.vue')
+      component: () => import('@/views/003自定义多个柱状图/index.vue')
     }
   ]
 })
