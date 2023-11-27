@@ -2,7 +2,7 @@
  * @Author: zhubj | '' 
  * @Date: 2023-11-20 16:57:55
  * @LastEditors: zhubj | '' 
- * @LastEditTime: 2023-11-26 17:15:14
+ * @LastEditTime: 2023-11-27 08:49:06
  * @FilePath: \echarts-vue-examples\src\App.vue
  * @Description: 
 -->
@@ -25,6 +25,12 @@
       @click="routerPush('/mulBar')"
     >
       003.自定义多个柱状图
+    </div>
+    <div
+      :class="['menu-item', currentPath == '/mul3DBar' && 'menu-item-active']"
+      @click="routerPush('/mul3DBar')"
+    >
+      004.自定义多个立体柱状图
     </div>
   </div>
 
