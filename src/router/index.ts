@@ -2,7 +2,7 @@
  * @Author: zhubj | ''
  * @Date: 2023-11-20 16:57:55
  * @LastEditors: zhubj | ''
- * @LastEditTime: 2023-11-27 08:48:25
+ * @LastEditTime: 2023-11-27 14:08:20
  * @FilePath: \echarts-vue-examples\src\router\index.ts
  * @Description:
  */
@@ -35,6 +35,21 @@ const router = createRouter({
       path: '/mul3DBar',
       name: 'Mul3DBarChart',
       component: () => import('@/views/004自定义多个立体柱状图/index.vue')
+    },
+    {
+      path: '/pieChart',
+      name: 'PieChart',
+      component: () => import('@/views/005扇形图/index.vue')
+    },
+    {
+      path: '/ringChart',
+      name: 'RingChart',
+      component: () => import('@/views/006圆环图/index.vue')
+    },
+    {
+      path: '/roseChart',
+      name: 'RoseChart',
+      component: () => import('@/views/007玫瑰图/index.vue')
     }
   ]
 })

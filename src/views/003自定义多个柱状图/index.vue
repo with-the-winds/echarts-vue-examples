@@ -11,9 +11,9 @@ import { mulSeriesData } from '@/utils/baseData'
 
 const description = `
 功能：
-1）tooltip 提示框组件是自定义的
-2）dataZoom 组件鼠标左右滚动功能
-3）在 type: 'bar' 下修改的属性：柱状图有背景、label显示
+1）dataZoom 组件鼠标左右滚动功能
+2）自定义 custom 画图
+3）这个图有做根据series数量的居中设置
 `
 
 let chart: EChartsType | null = null

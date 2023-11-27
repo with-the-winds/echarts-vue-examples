@@ -166,6 +166,20 @@ const initChart = async () => {
       trigger: 'axis', // 触发类型
       axisPointer: {
         type: 'shadow'
+      },
+      formatter: (params) => {
+        console.log('params', params)
+
+        const htmlStr = `
+          <span>${params[0].seriesName}</span>
+          <br />
+          <div style="display: flex; justify-content: flex-start; align-items: center;">
+            <div style="width: 8px;height: 8px;background: linear-gradient(0deg, #748ede 0%, #748ede 100%);margin-right: 6px;"></div>
+            <span style="padding-right: 6px;">${params[0].name}</span>
+            <span>${params[0].value || 0}</span>
+          </div>
+        `
+        return htmlStr
       }
     },
     // 图表类型

@@ -160,3 +160,12 @@ export const mulSeriesData = [
     ]
   }
 ]
+
+// 饼图数据
+export const pieSeriesData = [
+  { name: '水果', value: 30 },
+  { name: '蔬菜', value: 18 },
+  { name: '禽类', value: 0 },
+  { name: '海鲜', value: 65 },
+  { name: '主食', value: 6 }
+]
