@@ -2,7 +2,7 @@
  * @Author: zhubj | ''
  * @Date: 2023-11-20 16:57:55
  * @LastEditors: zhubj | ''
- * @LastEditTime: 2023-11-27 14:08:20
+ * @LastEditTime: 2023-11-27 16:04:16
  * @FilePath: \echarts-vue-examples\src\router\index.ts
  * @Description:
  */
@@ -50,6 +50,11 @@ const router = createRouter({
       path: '/roseChart',
       name: 'RoseChart',
       component: () => import('@/views/007玫瑰图/index.vue')
+    },
+    {
+      path: '/mapChart',
+      name: 'MapChart',
+      component: () => import('@/views/008地图/index.vue')
     }
   ]
 })

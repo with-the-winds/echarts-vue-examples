@@ -2,7 +2,7 @@
  * @Author: zhubj | '' 
  * @Date: 2023-11-20 16:57:55
  * @LastEditors: zhubj | '' 
- * @LastEditTime: 2023-11-27 14:10:00
+ * @LastEditTime: 2023-11-27 16:08:51
  * @FilePath: \echarts-vue-examples\src\App.vue
  * @Description: 
 -->
@@ -49,6 +49,12 @@
       @click="routerPush('/roseChart')"
     >
       007.玫瑰图
+    </div>
+    <div
+      :class="['menu-item', currentPath == '/mapChart' && 'menu-item-active']"
+      @click="routerPush('/mapChart')"
+    >
+      008.地图
     </div>
   </div>
 
