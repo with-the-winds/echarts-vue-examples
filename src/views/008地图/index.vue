@@ -15,6 +15,7 @@
 import { ref, onMounted, nextTick, onUnmounted } from 'vue'
 import * as echarts from 'echarts'
 import type { EChartsOption, EChartsType } from 'echarts'
+import { log } from 'console'
 
 const description = `
 功能：
@@ -37,8 +38,7 @@ let mapJson: any = null // 地图边界
  * @param {*} name 下转时传递的name值
  */
 const getGeoJson = async (isTitle?: boolean, name?: string) => {
-  const modules = import.meta.glob('@/assets/example008/geoJson/*') // 导入
-  console.log(modules)
+  const modules = import.meta.glob('@/assets/example008/geoJson/**/*.json') // 导入
 
   if (administrativeLevel == 'county') {
     mapJson = await import('@/assets/example008/geoJson/100000_full.json')
@@ -64,8 +64,30 @@ const getGeoJson = async (isTitle?: boolean, name?: string) => {
         break
       }
     }
-    mapJson = await import(`@/assets/example008/geoJson/city/city/${provinceCode}_full.json`)
-    cityList = (await import(`@/assets/example008/geoJson/city/${provinceCode}_city.json`)).rows
+    // https://juejin.cn/post/7256779530392485943
+    const test = await import(
+      `../../../assets/example008/geoJson/city/city/${provinceCode}_full.json`
+    )
+    console.console.log('test', test)
+
+    for (const path in modules) {
+      if (path == '/src/assets/example008/geoJson/city/city/' + provinceCode + '_full.json') {
+        modules[path]().then((mod) => {
+          mapJson = mod
+        })
+        break
+      }
+    }
+    for (const path in modules) {
+      if (path == '/src/assets/example008/geoJson/city/' + provinceCode + '_city.json') {
+        modules[path]().then((mod) => {
+          cityList = mod.rows
+        })
+        break
+      }
+    }
+
+    // cityList = (await import(`@/assets/example008/geoJson/city/${provinceCode}_city.json`)).rows
     initChart()
   } else {
     let provinceCode = null
@@ -76,7 +98,19 @@ const getGeoJson = async (isTitle?: boolean, name?: string) => {
         break
       }
     }
-    mapJson = await import(`@/assets/example008/geoJson/city/city/${provinceCode}_full.json`)
+    for (const path in modules) {
+      console.log('/src/assets/example008/geoJson/city/city/' + provinceCode + '_full.json')
+      console.log(path)
+
+      if (path == '/src/assets/example008/geoJson/city/city/' + provinceCode + '_full.json') {
+        modules[path]().then((mod) => {
+          mapJson = mod
+          console.log('mapJson', mapJson)
+        })
+        break
+      }
+    }
+    // mapJson = await import(`@/assets/example008/geoJson/city/city/${provinceCode}_full.json`)
     initChart()
   }
 }
