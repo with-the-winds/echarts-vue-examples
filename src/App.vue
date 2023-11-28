@@ -2,12 +2,18 @@
  * @Author: zhubj | '' 
  * @Date: 2023-11-20 16:57:55
  * @LastEditors: zhubj | '' 
- * @LastEditTime: 2023-11-27 16:08:51
+ * @LastEditTime: 2023-11-28 20:54:36
  * @FilePath: \echarts-vue-examples\src\App.vue
  * @Description: 
 -->
 <template>
   <div class="menu-box">
+    <div
+      :class="['menu-item', currentPath == '/base' && 'menu-item-active']"
+      @click="routerPush('/base')"
+    >
+      000.相关概念
+    </div>
     <div
       :class="['menu-item', currentPath == '/bar' && 'menu-item-active']"
       @click="routerPush('/bar')"
@@ -55,6 +61,48 @@
       @click="routerPush('/mapChart')"
     >
       008.地图
+    </div>
+    <div
+      :class="['menu-item', currentPath == '/ring3DChart' && 'menu-item-active']"
+      @click="routerPush('/ring3DChart')"
+    >
+      009.圆环柱状图
+    </div>
+    <div
+      :class="['menu-item', currentPath == '/curtomBaseBar' && 'menu-item-active']"
+      @click="routerPush('/curtomBaseBar')"
+    >
+      010.自定义基本柱状图
+    </div>
+    <div
+      :class="['menu-item', currentPath == '/curtomBaseLine' && 'menu-item-active']"
+      @click="routerPush('/curtomBaseLine')"
+    >
+      011.自定义基本折线图
+    </div>
+    <div
+      :class="['menu-item', currentPath == '/curtomBaseRing' && 'menu-item-active']"
+      @click="routerPush('/curtomBaseRing')"
+    >
+      012.自定义基本圆环图
+    </div>
+    <div
+      :class="['menu-item', currentPath == '/curtomBaseCircle' && 'menu-item-active']"
+      @click="routerPush('/curtomBaseCircle')"
+    >
+      013.自定义基本圆图
+    </div>
+    <div
+      :class="['menu-item', currentPath == '/curtomBaseSector' && 'menu-item-active']"
+      @click="routerPush('/curtomBaseSector')"
+    >
+      014.自定义基本扇形图
+    </div>
+    <div
+      :class="['menu-item', currentPath == '/curtomBaseSector2' && 'menu-item-active']"
+      @click="routerPush('/curtomBaseSector2')"
+    >
+      015.自定义基本扇形图2
     </div>
   </div>
 

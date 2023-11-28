@@ -2,7 +2,7 @@
  * @Author: zhubj | ''
  * @Date: 2023-11-20 16:57:55
  * @LastEditors: zhubj | ''
- * @LastEditTime: 2023-11-27 16:04:16
+ * @LastEditTime: 2023-11-28 20:54:19
  * @FilePath: \echarts-vue-examples\src\router\index.ts
  * @Description:
  */
@@ -15,6 +15,11 @@ const router = createRouter({
     {
       path: '/',
       redirect: '/bar'
+    },
+    {
+      path: '/base',
+      name: 'BaseChart',
+      component: () => import('@/views/000相关概念/index.vue')
     },
     {
       path: '/bar',
@@ -55,6 +60,41 @@ const router = createRouter({
       path: '/mapChart',
       name: 'MapChart',
       component: () => import('@/views/008地图/index.vue')
+    },
+    {
+      path: '/ring3DChart',
+      name: 'MapChart',
+      component: () => import('@/views/009圆环柱状图/index.vue')
+    },
+    {
+      path: '/curtomBaseBar',
+      name: 'CurtomBaseBar',
+      component: () => import('@/views/010自定义基本柱状图/index.vue')
+    },
+    {
+      path: '/curtomBaseLine',
+      name: 'CurtomBaseLine',
+      component: () => import('@/views/011自定义基本折线图/index.vue')
+    },
+    {
+      path: '/curtomBaseRing',
+      name: 'CurtomBaseRing',
+      component: () => import('@/views/012自定义基本圆环图/index.vue')
+    },
+    {
+      path: '/curtomBaseCircle',
+      name: 'CurtomBaseCircle',
+      component: () => import('@/views/013自定义基本圆图/index.vue')
+    },
+    {
+      path: '/curtomBaseSector',
+      name: 'CurtomBaseSector',
+      component: () => import('@/views/014自定义基本扇形图/index.vue')
+    },
+    {
+      path: '/curtomBaseSector2',
+      name: 'CurtomBaseSector2',
+      component: () => import('@/views/015自定义基本扇形图2/index.vue')
     }
   ]
 })
