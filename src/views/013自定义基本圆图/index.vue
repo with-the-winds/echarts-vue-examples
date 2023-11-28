@@ -181,7 +181,7 @@ const initChart = async () => {
               r: 20
             },
             style: {
-              fill: api.visual('color') // 画笔
+              fill: api.visual('color') // 填充
             }
           }
         },

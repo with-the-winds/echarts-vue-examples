@@ -7,6 +7,7 @@
 import { ref, onMounted, nextTick, onUnmounted } from 'vue'
 import * as echarts from 'echarts'
 import type { EChartsOption, EChartsType } from 'echarts'
+import { log } from 'console'
 
 const description = `
 功能：
@@ -15,6 +16,14 @@ const description = `
 
 let chart: EChartsType | null = null
 let options: EChartsOption = {}
+const seriesData = [
+  { name: '衬衫', value: 5, isShow: true },
+  { name: '羊毛衫', value: 10, isShow: true },
+  { name: '雪纺衫', value: 36, isShow: true },
+  { name: '裤子', value: 10, isShow: true },
+  { name: '高跟鞋', value: 10, isShow: true },
+  { name: '袜子', value: 20, isShow: true }
+]
 
 const barChartRef = ref()
 const initChart = async () => {
@@ -26,6 +35,53 @@ const initChart = async () => {
   // 图表挂载到标签上
   await nextTick()
   chart = echarts.init(barChartRef.value)
+  // 返回series的数组
+  function getSeriesOption(params: type) {
+    const tempSeriesData = seriesData.filter((item) => item.isShow == true)
+
+    const seriesOption = seriesData.map((item) => {
+      const total = tempSeriesData.reduce((total, currentValue) => total + currentValue.value, 0) // 总数
+      let endTotal = 0
+      // 判断累加到当前的值
+      if (item.isShow) {
+        for (const itemValue of tempSeriesData) {
+          endTotal += itemValue.value
+          if (itemValue.name == item.name) {
+            break
+          }
+        }
+      }
+
+      const currentAngle = (item.value / total) * Math.PI * 2
+      const endAngle = (endTotal / total) * Math.PI * 2
+      return {
+        type: 'custom',
+        name: item.name,
+        // @ts-ignore
+        renderItem: (params, api) => {
+          return {
+            type: 'sector',
+            // 形状
+            shape: {
+              cx: 400, // 图形元素的中心在父节点坐标系（以父节点左上角为原点）中的横坐标值。
+              cy: 300, // 图形元素的中心在父节点坐标系（以父节点左上角为原点）中的纵坐标值。
+              r: 150, // 外半径
+              r0: 0, // 内半径
+              startAngle: item.isShow ? endAngle - currentAngle : 0, // 开始弧度
+              endAngle: item.isShow ? endAngle : 0, // 结束弧度
+              clockwise: true // 是否顺时针
+            },
+            style: {
+              fill: api.visual('color') // 填充
+            }
+          }
+        },
+        data: [item.value]
+      }
+    })
+    return seriesOption
+  }
+
   // options 配置项
   options = {
     // 标题组件，包含主标题和副标题
@@ -160,52 +216,28 @@ const initChart = async () => {
       trigger: 'item', // 触发类型
       axisPointer: {
         type: 'shadow'
-      }
+      },
+      formatter: '{a} {c}'
     },
     // 图表类型
-    series: [
-      {
-        type: 'custom',
-        name: '销量',
-        // @ts-ignore
-        renderItem: (params, api) => {
-          const centerPoint = api.coord([0, 0])
-          console.log('centerPoint', centerPoint)
-
-          const total = [5, 10, 36, 10, 10, 20].reduce(
-            (total, currentValue) => total + currentValue,
-            0
-          )
-          const lastAngle = params.context.lastAngle
-          const endAngle =
-            (Number(api.value(1)) / total) * Math.PI * 2 + ((lastAngle as number) || 0)
-
-          params.context.lastAngle = endAngle
-          return {
-            type: 'sector',
-            // 形状
-            shape: {
-              cx: 400, // 图形元素的中心在父节点坐标系（以父节点左上角为原点）中的横坐标值。
-              cy: 300, // 图形元素的中心在父节点坐标系（以父节点左上角为原点）中的纵坐标值。
-              r: 150, // 外半径
-              r0: 0, // 内半径
-              startAngle: lastAngle ? lastAngle : 0, // 开始弧度
-              endAngle: endAngle, // 结束弧度
-              clockwise: true // 是否顺时针
-            },
-            style: {
-              fill: ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272'][
-                params.dataIndex
-              ] // 填充
-            }
-          }
-        },
-        data: [5, 10, 36, 10, 10, 20]
-      }
-    ]
+    series: getSeriesOption()
   }
   // options 配置设置到chart上
   options && chart.setOption(options, true)
+
+  // 图例选中/未选中的事件
+  chart.on('legendselectchanged', (params) => {
+    for (let item of seriesData) {
+      if (item.name == params.name) {
+        item.isShow = params.selected[params.name]
+        break
+      }
+    }
+
+    chart.setOption({
+      series: getSeriesOption()
+    })
+  })
 }
 
 onMounted(() => {
