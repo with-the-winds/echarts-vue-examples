@@ -1,8 +1,8 @@
 /*
  * @Author: zhubj | ''
  * @Date: 2023-11-20 16:57:55
- * @LastEditors: zhubj | ''
- * @LastEditTime: 2023-11-28 20:54:19
+ * @LastEditors: zhubj
+ * @LastEditTime: 2023-11-28 23:48:32
  * @FilePath: \echarts-vue-examples\src\router\index.ts
  * @Description:
  */
@@ -63,7 +63,7 @@ const router = createRouter({
     },
     {
       path: '/ring3DChart',
-      name: 'MapChart',
+      name: 'Ring3DChart',
       component: () => import('@/views/009圆环柱状图/index.vue')
     },
     {
