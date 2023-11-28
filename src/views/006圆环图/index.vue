@@ -197,10 +197,7 @@ onUnmounted(() => {
 .bar-chart {
   width: 800px;
   height: 600px;
+  margin: 10px;
   border: 1px solid gray;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 </style>
