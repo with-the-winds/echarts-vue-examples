@@ -193,7 +193,7 @@ const initChart = async () => {
           position: 'top'
         },
         type: 'scatter',
-        coordinateSystem: 'geo',
+        coordinateSystem: 'geo', // 改系列使用的坐标系
         itemStyle: {
           color: 'fff'
         },

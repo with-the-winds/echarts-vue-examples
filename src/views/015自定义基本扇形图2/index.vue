@@ -7,7 +7,6 @@
 import { ref, onMounted, nextTick, onUnmounted } from 'vue'
 import * as echarts from 'echarts'
 import type { EChartsOption, EChartsType } from 'echarts'
-import { log } from 'console'
 
 const description = `
 功能：
@@ -36,7 +35,7 @@ const initChart = async () => {
   await nextTick()
   chart = echarts.init(barChartRef.value)
   // 返回series的数组
-  function getSeriesOption(params: type) {
+  function getSeriesOption() {
     const tempSeriesData = seriesData.filter((item) => item.isShow == true)
 
     const seriesOption = seriesData.map((item) => {
@@ -220,13 +219,13 @@ const initChart = async () => {
       formatter: '{a} {c}'
     },
     // 图表类型
-    series: getSeriesOption()
+    series: getSeriesOption() as echarts.SeriesOption
   }
   // options 配置设置到chart上
   options && chart.setOption(options, true)
 
   // 图例选中/未选中的事件
-  chart.on('legendselectchanged', (params) => {
+  chart.on('legendselectchanged', (params: any) => {
     for (let item of seriesData) {
       if (item.name == params.name) {
         item.isShow = params.selected[params.name]
@@ -234,7 +233,7 @@ const initChart = async () => {
       }
     }
 
-    chart.setOption({
+    chart?.setOption({
       series: getSeriesOption()
     })
   })
