@@ -172,7 +172,7 @@ const initChart = async () => {
         // @ts-ignore
         renderItem: (params, api) => {
           const point = api.coord([api.value(0), api.value(1)]) // 左上角是原点，根据原点往右往下变大，点位是顶部中点 [x横坐标值, y纵坐标值]
-          console.log('point', api.value(0), api.value(1), point)
+          // console.log('point', api.value(0), api.value(1), point)
           // params.context {Object} 一个可供开发者暂存东西的对象。生命周期只为：当前次的渲染。
           const lastPoint = params.context.lastPoint
           params.context.lastPoint = point

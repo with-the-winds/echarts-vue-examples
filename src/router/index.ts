@@ -1,8 +1,8 @@
 /*
  * @Author: zhubj | ''
  * @Date: 2023-11-20 16:57:55
- * @LastEditors: zhubj
- * @LastEditTime: 2023-11-28 23:48:32
+ * @LastEditors: zhubj | ''
+ * @LastEditTime: 2023-11-29 13:04:32
  * @FilePath: \echarts-vue-examples\src\router\index.ts
  * @Description:
  */
@@ -95,6 +95,11 @@ const router = createRouter({
       path: '/curtomBaseSector2',
       name: 'CurtomBaseSector2',
       component: () => import('@/views/015自定义基本扇形图2/index.vue')
+    },
+    {
+      path: '/curtomDotChart',
+      name: 'CurtomDotChart',
+      component: () => import('@/views/016自定义连点画图/index.vue')
     }
   ]
 })

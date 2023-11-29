@@ -168,7 +168,7 @@ const initChart = async () => {
         type: 'shadow'
       },
       formatter: (params) => {
-        console.log('params', params)
+        // console.log('params', params)
 
         const htmlStr = `
           <span>${params[0].seriesName}</span>

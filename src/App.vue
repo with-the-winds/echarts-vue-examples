@@ -2,7 +2,7 @@
  * @Author: zhubj | '' 
  * @Date: 2023-11-20 16:57:55
  * @LastEditors: zhubj | '' 
- * @LastEditTime: 2023-11-28 20:54:36
+ * @LastEditTime: 2023-11-29 09:49:52
  * @FilePath: \echarts-vue-examples\src\App.vue
  * @Description: 
 -->
@@ -103,6 +103,12 @@
       @click="routerPush('/curtomBaseSector2')"
     >
       015.自定义基本扇形图2
+    </div>
+    <div
+      :class="['menu-item', currentPath == '/curtomDotChart' && 'menu-item-active']"
+      @click="routerPush('/curtomDotChart')"
+    >
+      015.自定义连点画图
     </div>
   </div>
 

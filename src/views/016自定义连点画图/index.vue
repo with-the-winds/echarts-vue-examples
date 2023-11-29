@@ -10,7 +10,7 @@ import type { EChartsOption, EChartsType } from 'echarts'
 
 const description = `
 功能：
-1）这个饼图是在一个series中实现的，所以只有一个图例
+1)自定义柱状图
 `
 
 let chart: EChartsType | null = null
@@ -55,7 +55,7 @@ const initChart = async () => {
     },
     // 直角坐标系 grid 中的 x 轴
     xAxis: {
-      show: false,
+      show: true,
       type: 'category',
       // name: 'x轴',
       // nameLocation: 'start',
@@ -99,7 +99,7 @@ const initChart = async () => {
     },
     // 直角坐标系 grid 中的 y 轴
     yAxis: {
-      show: false,
+      show: true,
       type: 'value',
       // 坐标轴名称和样式
       name: '(单位/个)',
@@ -157,7 +157,7 @@ const initChart = async () => {
     // 提示框组件
     tooltip: {
       show: true,
-      trigger: 'item', // 触发类型
+      trigger: 'axis', // 触发类型
       axisPointer: {
         type: 'shadow'
       }
@@ -169,41 +169,51 @@ const initChart = async () => {
         name: '销量',
         // @ts-ignore
         renderItem: (params, api) => {
-          const centerPoint = api.coord([0, 0])
-          // console.log('centerPoint', centerPoint)
-
-          const total = [5, 10, 36, 10, 10, 20].reduce(
-            (total, currentValue) => total + currentValue,
-            0
-          )
-          const lastAngle = params.context.lastAngle
-          const endAngle =
-            (Number(api.value(1)) / total) * Math.PI * 2 + ((lastAngle as number) || 0)
-
-          params.context.lastAngle = endAngle
+          const point = api.coord([api.value(0), api.value(1)]) // 左上角是原点，根据原点往右往下变大，点位是顶部中点 [x横坐标值, y纵坐标值]
+          const fullY = api.coord([api.value(0), 0])[1] // 获取整个图表的高度
+          const height = api.size([0, api.value(1)])[1] // 得到坐标系上一段数值范围对应的长度
           return {
-            type: 'sector',
+            type: 'rect2',
             // 形状
             shape: {
-              cx: 400, // 图形元素的中心在父节点坐标系（以父节点左上角为原点）中的横坐标值。
-              cy: 300, // 图形元素的中心在父节点坐标系（以父节点左上角为原点）中的纵坐标值。
-              r: 150, // 外半径
-              r0: 0, // 内半径
-              startAngle: lastAngle ? lastAngle : 0, // 开始弧度
-              endAngle: endAngle, // 结束弧度
-              clockwise: true // 是否顺时针
+              x: point[0] - 12,
+              y: point[1],
+              width: 24,
+              height: height,
+              fullY: fullY
             },
+            // 样式
             style: {
-              fill: ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272'][
-                params.dataIndex
-              ] // 填充
+              fill: api.visual('color')
             }
           }
         },
-        data: [5, 10, 36, 10, 10, 20]
+        data: [5, 20, 36, 10, 10, 20]
       }
     ]
   }
+
+  // 创建一个新的 shape class
+  const rect2 = echarts.graphic.extendShape({
+    buildPath: function (ctx, shape) {
+      // ctx 是 CanvasRenderingContext2D实例，效果等同于 const ctx = canvas.getContext("2d")
+      // ctx.beginPath(); ctx.moveTo(50, 140);ctx.lineTo(150, 60); ctx.closePath();
+      const p0 = [shape.x, shape.y] // 左上
+      const p1 = [shape.x, shape.fullY] // 左下
+      const p2 = [shape.x + shape.width, shape.fullY] // 右下
+      const p3 = [shape.x + shape.width, shape.y] // 右上
+      ctx.beginPath()
+      ctx.moveTo(p0[0], p0[1])
+      ctx.lineTo(p1[0], p1[1])
+      ctx.lineTo(p2[0], p2[1])
+      ctx.lineTo(p3[0], p3[1])
+      ctx.lineTo(p0[0], p0[1])
+      ctx.closePath()
+    }
+  })
+  // 注册一个开发者定义的 shape class
+  echarts.graphic.registerShape('rect2', rect2)
+
   // options 配置设置到chart上
   options && chart.setOption(options, true)
 }

@@ -310,6 +310,7 @@ const initChart = async () => {
     const height = api.size([0, api.value(1)])[1] // 得到坐标系上一段数值范围对应的长度
     const seriesIndex = params.seriesIndex // 系列index, series （从 0 开始）用于不同系列的间隔
     const seriesLength = 3
+    // console.log('params', params)
 
     return {
       type: 'group',

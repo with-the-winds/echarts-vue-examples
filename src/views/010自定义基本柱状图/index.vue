@@ -170,7 +170,7 @@ const initChart = async () => {
         // @ts-ignore
         renderItem: (params, api) => {
           const point = api.coord([api.value(0), api.value(1)]) // 左上角是原点，根据原点往右往下变大，点位是顶部中点 [x横坐标值, y纵坐标值]
-          console.log('height', api.size([0, api.value(1)]))
+          // console.log('height', api.size([0, api.value(1)]))
           const height = api.size([0, api.value(1)])[1] // 得到坐标系上一段数值范围对应的长度
           return {
             type: 'rect',
