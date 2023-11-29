@@ -10,7 +10,7 @@ import type { EChartsOption, EChartsType } from 'echarts'
 
 const description = `
 功能：
-1)自定义柱状图
+1)通过点连线注册shape图形元素
 `
 
 let chart: EChartsType | null = null

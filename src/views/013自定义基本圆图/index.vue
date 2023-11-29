@@ -10,9 +10,7 @@ import type { EChartsOption, EChartsType } from 'echarts'
 
 const description = `
 功能：
-1）tooltip 提示框组件是自定义的
-2）dataZoom 组件鼠标左右滚动功能
-3）在 type: 'bar' 下修改的属性：柱状图有背景、label显示
+1）自定义基本圆图
 `
 
 let chart: EChartsType | null = null
